@@ -34,34 +34,70 @@ const inline = `
     });
   }
   var observer = null;
-  var loading = null;
-  function load(el) {
-    if (window.Waline) return Promise.resolve(window.Waline);
-    if (loading) return loading;
-    var v = el.dataset.version;
-    var css = document.createElement("link");
-    css.rel = "stylesheet";
-    css.href = "https://unpkg.com/@waline/client@" + v + "/dist/waline.css";
-    document.head.appendChild(css);
-    loading = new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = "https://unpkg.com/@waline/client@" + v + "/dist/waline.umd.js";
-      s.async = true;
-      s.onload = function () { resolve(window.Waline); };
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
-    return loading;
+  var scriptLoading = null;
+  var token = 0;
+  var CDNS = ["https://cdn.jsdelivr.net/npm/", "https://unpkg.com/"];
+
+  // Tenta cada CDN em ordem até um funcionar.
+  function tryEach(make) {
+    var i = 0;
+    function next() {
+      if (i >= CDNS.length) return Promise.reject(new Error("cdn"));
+      return make(CDNS[i++]).catch(next);
+    }
+    return next();
   }
+
+  // O Quartz remove do <head> o que não tem data-persist ao trocar de página, então o CSS
+  // e o script são marcados como persistentes (senão os comentários perdem a formatação).
+  function ensureCss(v) {
+    var old = document.getElementById("waline-css");
+    if (old && old.dataset.ready === "1") return Promise.resolve();
+    if (old) old.remove();
+    return tryEach(function (cdn) {
+      return new Promise(function (resolve, reject) {
+        var l = document.createElement("link");
+        l.id = "waline-css";
+        l.rel = "stylesheet";
+        l.setAttribute("data-persist", "true");
+        l.href = cdn + "@waline/client@" + v + "/dist/waline.css";
+        l.onload = function () { l.dataset.ready = "1"; resolve(); };
+        l.onerror = function () { l.remove(); reject(new Error("css")); };
+        document.head.appendChild(l);
+      });
+    });
+  }
+
+  function ensureScript(v) {
+    if (window.Waline) return Promise.resolve(window.Waline);
+    if (scriptLoading) return scriptLoading;
+    scriptLoading = tryEach(function (cdn) {
+      return new Promise(function (resolve, reject) {
+        var s = document.createElement("script");
+        s.src = cdn + "@waline/client@" + v + "/dist/waline.umd.js";
+        s.async = true;
+        s.setAttribute("data-persist", "true");
+        s.onload = function () { resolve(window.Waline); };
+        s.onerror = function () { s.remove(); reject(new Error("js")); };
+        document.head.appendChild(s);
+      });
+    }).catch(function (e) { scriptLoading = null; throw e; });
+    return scriptLoading;
+  }
+
   function mount() {
+    var my = ++token;
     if (observer) { observer.disconnect(); observer = null; }
     if (instance) { try { instance.destroy(); } catch (e) {} instance = null; }
     var el = document.querySelector(".waline-comments");
     if (!el || !el.dataset.serverUrl) return;
     var target = el.querySelector(".waline-target");
     if (!target) return;
-    load(el).then(function (Waline) {
-      if (!document.body.contains(target)) return;
+    var v = el.dataset.version;
+    Promise.all([ensureCss(v), ensureScript(v)]).then(function (r) {
+      // outra montagem começou (nav + render disparam juntos) ou a página mudou
+      if (my !== token || !document.body.contains(target)) return;
+      var Waline = r[1];
       instance = Waline.init({
         el: target,
         serverURL: el.dataset.serverUrl,
@@ -78,7 +114,7 @@ const inline = `
       observer.observe(target, { childList: true, subtree: true, attributes: true, attributeFilter: ["src"] });
       swapAvatars(target);
     }).catch(function () {
-      target.textContent = "Não foi possível carregar os comentários.";
+      if (my === token) target.textContent = "Não foi possível carregar os comentários. Recarregue a página.";
     });
   }
   document.addEventListener("nav", mount);

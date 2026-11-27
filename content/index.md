@@ -13,5 +13,3 @@ Um lugar onde você pode relembrar todas as informações, personagens e eventos
 
 Se tiver qualquer duvida, sugestão ou correção pode conversar comigo!  
 [@luizhardacore](https://x.com/LuizHardacore)
-
-25

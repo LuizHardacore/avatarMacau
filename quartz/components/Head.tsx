@@ -6,6 +6,10 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { unescapeHTML } from "../util/escape"
 import { realDate } from "../util/dates"
 
+// Título fixo da aba do navegador: o mesmo em todas as páginas.
+// (og:title e twitter:title continuam com o nome de cada página.)
+const TAB_TITLE = "Wiki A Lenda de Macau"
+
 export default (() => {
   const Head: QuartzComponent = ({
     cfg,
@@ -56,7 +60,7 @@ export default (() => {
 
     return (
       <head>
-        <title>{title}</title>
+        <title>{TAB_TITLE}</title>
         <meta charSet="utf-8" />
         {coreStylesheet && <link rel="preload" href={coreStylesheet} as="style" />}
         {coreScript && coreScript.contentType === "external" && (
