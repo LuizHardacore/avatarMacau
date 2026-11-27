@@ -207,10 +207,15 @@ plugins:
       priority: 5
       condition: not-index
   - source: "@quartz-community/comments"
-    enabled: false
+    enabled: true
     options:
       provider: giscus
-      options: {}
+      options:
+        repo: LuizHardacore/avatarMacau
+        repoId: R_kgDOV-hvEQ
+        category: Announcements
+        categoryId: DIC_kwDOV-hvEc4DMICw
+        lang: en
     layout:
       position: afterBody
       priority: 10
