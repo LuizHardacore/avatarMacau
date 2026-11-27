@@ -353,7 +353,6 @@ a.tag-link {
 .waline-comments {
   margin-top: 3.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
 
   &::before {
     content: "Comentários";
@@ -472,29 +471,6 @@ body[data-slug="index"] .article-title {
 }
 
 // ───────── Espaçamento: mais respiro ─────────
-#quartz-body {
-  column-gap: 1.5rem;
-
-  .sidebar {
-    gap: 1.6rem;
-    padding: 6rem 2.25rem 3rem;
-
-    @media all and ($mobile) {
-      padding: 1.5rem 0 0;
-    }
-  }
-
-  .page-header {
-    margin-top: 6.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .center > article {
-    margin-top: 1.25rem;
-    padding-bottom: 1.5rem;
-  }
-}
-
 article {
   line-height: 1.8;
 
@@ -604,4 +580,225 @@ footer {
     border-radius: 50%;
     background: var(--soft);
   }
+}
+
+// ───────── Layout responsivo (celular, tablet, desktop e telas grandes) ─────────
+// O prefixo ".page > #quartz-body" iguala a especificidade das regras base do Quartz.
+.page > #quartz-body {
+  column-gap: 1.5rem;
+
+  .page-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .center > article {
+    margin-top: 1.25rem;
+    padding-bottom: 1.5rem;
+    max-width: 62rem;
+  }
+
+  // ── Desktop (≥ 1200px) ──
+  @media all and ($desktop) {
+    .sidebar {
+      gap: 1.6rem;
+      padding: 6rem 2.25rem 3rem;
+    }
+
+    .page-header {
+      margin-top: 6.5rem;
+    }
+  }
+
+  // ── Tablet (800–1200px): barra lateral mais estreita, sumário/grafo abaixo do texto ──
+  @media all and ($tablet) {
+    grid-template-columns: 250px minmax(0, 1fr);
+    padding: 0 clamp(1rem, 3vw, 2rem);
+
+    .sidebar.left {
+      padding: 3rem 1.25rem 2rem 0;
+      gap: 1.25rem;
+    }
+
+    .page-header {
+      margin-top: 3rem;
+    }
+
+    .sidebar.right {
+      padding: 1.5rem 0 0;
+      gap: 1.5rem;
+    }
+  }
+
+  // ── Celular (< 800px) ──
+  @media all and ($mobile) {
+    padding: 0 max(1.1rem, env(safe-area-inset-left)) 0 max(1.1rem, env(safe-area-inset-right));
+    row-gap: 0;
+
+    // Cabeçalho compacto: [menu] Título ........ [busca] [tema] [leitor]
+    .sidebar.left {
+      position: relative;
+      height: auto;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 0 0.8rem;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 0.5rem;
+    }
+
+    .page-title {
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: 1.05rem;
+      line-height: 1.2;
+
+      // anula o "overflow-wrap: anywhere" base, que quebrava o título no meio das palavras
+      a {
+        overflow-wrap: normal;
+        word-break: normal;
+      }
+    }
+
+    .mobile-only .spacer,
+    .spacer {
+      display: none;
+    }
+
+    .flex-component {
+      flex: 0 0 auto;
+    }
+
+    // busca só com o ícone, para sobrar espaço ao título
+    .search .search-button {
+      padding: 0.6rem;
+      min-width: 2.5rem;
+      justify-content: center;
+
+      p {
+        display: none;
+      }
+    }
+
+    .darkmode,
+    .readermode,
+    .explorer-toggle.mobile-explorer {
+      min-width: 2.5rem;
+      min-height: 2.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-header {
+      margin: 0.75rem 0 0;
+      padding: 0;
+    }
+
+    .center > article {
+      margin-top: 0.5rem;
+    }
+
+    // grafo e backlinks: um embaixo do outro, em largura total
+    .sidebar.right {
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1rem 0 0;
+
+      & > * {
+        flex: none;
+        width: 100%;
+        max-height: none;
+      }
+
+      .graph .graph-outer,
+      .graph .graph-container {
+        height: 15rem;
+      }
+    }
+  }
+}
+
+// Menu do explorador no celular (tela cheia que desliza da esquerda)
+@media all and ($mobile) {
+  .explorer .explorer-content {
+    background: var(--light);
+    padding: 4.5rem 1.25rem 2rem;
+    font-size: 1.05rem;
+
+    .tree-item-self,
+    .nav-file-title,
+    .folder-container {
+      padding: 0.45rem 0.6rem;
+    }
+  }
+}
+
+// Telas grandes (≥ 1700px): mais largura e texto um pouco maior
+@media (min-width: 1700px) {
+  .page {
+    max-width: 1700px;
+  }
+
+  article {
+    font-size: 1.05rem;
+  }
+}
+
+// Mídia e tabelas nunca estouram a largura da tela
+article {
+  overflow-wrap: break-word;
+
+  img,
+  video,
+  iframe,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+
+  pre {
+    overflow-x: auto;
+  }
+
+  .table-container,
+  table {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
+@media all and ($mobile) {
+  article {
+    line-height: 1.75;
+
+    h1,
+    .article-title {
+      font-size: clamp(1.6rem, 7vw, 2rem);
+    }
+
+    h2 {
+      margin-top: 2.25rem;
+    }
+  }
+
+  .article-title {
+    font-size: clamp(1.6rem, 7vw, 2rem);
+  }
+
+  .waline-comments {
+    margin-top: 3rem;
+  }
+
+  footer {
+    margin-top: 2.5rem;
+  }
+}
+
+// Logo da página inicial: centralizada e com largura máxima, para não ficar gigante em telas grandes
+article img[src*="group-118"] {
+  display: block;
+  width: min(100%, 36rem);
+  margin: 1.5rem auto 2rem;
 }

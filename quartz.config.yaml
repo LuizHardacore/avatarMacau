@@ -150,11 +150,26 @@ plugins:
     layout:
       position: left
       priority: 50
+  # Grafo local (conexões da página) nas páginas comuns
   - source: "@quartz-community/graph"
     enabled: true
     layout:
       position: right
       priority: 10
+      condition: not-index
+  # Na página inicial, o grafo mostra o site inteiro (depth: -1 = todas as páginas)
+  - source: "@quartz-community/graph"
+    enabled: true
+    options:
+      localGraph:
+        depth: -1
+        scale: 0.75
+        repelForce: 0.45
+        linkDistance: 32
+    layout:
+      position: right
+      priority: 10
+      condition: is-index
   - source: "@quartz-community/search"
     enabled: true
     layout:
