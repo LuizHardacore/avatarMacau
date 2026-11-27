@@ -1,0 +1,1 @@
+A excêntrica tia de [[Yanli Chuiliu|Yanli]], editora chefe e dona da revista de moda [[Revista Bloom|Bloom]].

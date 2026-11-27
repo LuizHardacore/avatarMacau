@@ -1,0 +1,26 @@
+/*
+a{ 
+  color:#ebd234;
+  }
+a:hover{ 
+  color:#ebd234;
+  }
+.site-tree-item-self.is-current{
+  color:#ebd234;
+}
+.site-tree-item-self.is-current:hover{
+  color:#ebd234;
+}
+.site-tree-item-text{
+  color:#ebd234;
+}
+.site-tree-item-text:hover{
+  color:#ebd234;
+}
+ * */
+.rendered-mdx:not(.is-plain) {
+--tw-prose-links: #1b7a00;
+}
+span{ 
+  color:#1b7a00;
+  }

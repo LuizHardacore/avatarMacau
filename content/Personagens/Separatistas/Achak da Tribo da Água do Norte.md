@@ -1,0 +1,5 @@
+Achak da tribo da Água do Norte veio a [[Cidade República]] misteriosamente, pouco se sabe sobre ele além de que é um dominador de água excepcional. Achak conheceu [[Tau, O Sábio]] e o [[Movimento Separatista]] e rapidamente se tornou um dos seguidores mais valorizados. Foi com sua ajuda e influência que os separatistas se tornaram uma verdadeira ameaça para [[República Unida]].
+
+Achak nunca foi realmente da Tribo da Água do Norte, na realidade ele cresceu aqui mesmo em Cidade República. Sua mãe era a princesa e uma grande guerreira da Tribo do Norte até ser exilada por ter participado de um grupo terrorista conservador que tentou impedir a primeira eleição democrática do Norte. Ela ensinou tudo que sabia para seu filho antes de desaparecer misteriosamente junto a 5 outras pessoas em 246.
+
+Achak vê no movimento separatista a chance de dominar cidade república e cumprir os desejos megalomaníacos de sua falecida mãe, baseado em seu desaparecimento ele cria [[O Espírito de Cidade República]] para dar credibilidade ao discurso de Tau.

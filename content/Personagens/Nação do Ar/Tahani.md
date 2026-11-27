@@ -1,0 +1,2 @@
+Monja do templo do ar de [[Rava]].
+Ela veio a cidade república atrás de Rava por ordem de Yangchen e foi sequestrada por [[Achak da Tribo da Água do Norte|Achak]] e salva pelo [[Time Avatar]] durante o [[Episódio 10 - O Príncipe]].

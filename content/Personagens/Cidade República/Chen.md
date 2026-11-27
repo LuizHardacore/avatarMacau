@@ -1,0 +1,4 @@
+Chen é um dobrador de fogo e membro notável da [[Ameaça Tripla]].
+
+Depois de falhar uma missão de roubo para [[Corporação Repolho]] durantes os eventos do [[Episódio 1 - O Brilho Azul|Episódio 1]], Chen sofreu queimaduras graves de [[Hana do Clã Daimyo|Hana]] e [[Xiāoyín|Xiāoyín]] durante a invasão da Mansão Obake no [[Episódio 2 - A Mansão|Episódio 2]] e reencontrou o [[Time Avatar]] em busca de vingança, ameaçando [[Min|Min]] e fazendo com que [[Lee “Macau” Cao Kin|Macau]] entrasse no modo Avatar durante o [[Episódio 3 - O Espírito de Cidade República|Episodio 3]]. Chen está atualmente preso na [[Polícia de Cidade República|delegacia]] de [[Cidade República]].
+ 

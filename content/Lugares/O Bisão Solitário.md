@@ -1,0 +1,1 @@
+O Bisão Solitário é um antigo teatro abandonado em [[Cidade República]] que foi convertido em um bar e dormitório do [[Novo Ar]] após o [[Cisma do Ar]].
