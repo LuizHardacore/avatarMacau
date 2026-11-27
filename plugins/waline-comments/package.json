@@ -1,0 +1,39 @@
+{
+  "name": "waline-comments",
+  "version": "1.0.0",
+  "description": "Comentários anônimos com Waline para o Quartz",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./dist/index.js",
+    "./components": "./dist/components/index.js",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "sideEffects": false,
+  "peerDependencies": { "preact": "^10.0.0" },
+  "quartz": {
+    "name": "waline-comments",
+    "displayName": "Waline Comments",
+    "category": "component",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 50,
+    "defaultEnabled": false,
+    "defaultOptions": { "serverURL": "" },
+    "optionSchema": {
+      "serverURL": { "type": "string" },
+      "lang": { "type": "string" },
+      "requiredMeta": { "type": "string" },
+      "version": { "type": "string" }
+    },
+    "components": {
+      "WalineComments": {
+        "displayName": "Waline Comments",
+        "defaultPosition": "afterBody",
+        "defaultPriority": 10
+      }
+    }
+  }
+}

@@ -1,3 +1,607 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// Tema Avatar — A Lenda de Aang & A Lenda de Korra
+// Verde (Reino da Terra / jade) como acento. As quatro nações aparecem só em detalhes sutis.
+// Tudo usa as variáveis do Quartz (--light, --dark, --secondary…), que já trocam sozinhas
+// entre claro e escuro; os blocos [saved-theme="dark"] cobrem só o que precisa de ajuste fino.
+
+:root {
+  --fire: #d9622b;
+  --water: #3f8fc7;
+  --earth: #2f7d4a;
+  --air: #e3b94a;
+  --radius: 10px;
+  --soft: color-mix(in srgb, var(--secondary) 8%, transparent);
+  --line: var(--lightgray);
+}
+
+:root[saved-theme="dark"] {
+  --soft: color-mix(in srgb, var(--secondary) 12%, transparent);
+  --fire: #e07a47;
+  --water: #5aa5da;
+  --earth: #4fb872;
+  --air: #ecc864;
+  color-scheme: dark;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+// Faixa das quatro nações (única "decoração" do site)
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 1000;
+  background: linear-gradient(
+    90deg,
+    var(--fire) 0 25%,
+    var(--water) 25% 50%,
+    var(--earth) 50% 75%,
+    var(--air) 75% 100%
+  );
+}
+
+// ───────── Tipografia ─────────
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--headerFont);
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  color: var(--dark);
+}
+
+.article-title {
+  margin: 0.4rem 0 0.2rem;
+  font-size: 2.1rem;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 3rem;
+    height: 3px;
+    margin-top: 0.7rem;
+    border-radius: 3px;
+    background: var(--secondary);
+  }
+}
+
+.content-meta {
+  color: var(--gray);
+  font-size: 0.85rem;
+}
+
+a {
+  color: var(--secondary);
+  text-decoration: none;
+
+  &.internal {
+    background: transparent;
+    border-radius: 4px;
+    padding: 0 0.1rem;
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--secondary) 35%, transparent);
+    text-underline-offset: 3px;
+    transition:
+      background-color 0.15s ease,
+      text-decoration-color 0.15s ease;
+
+    &:hover {
+      background: var(--soft);
+      text-decoration-color: var(--secondary);
+    }
+
+    &.tag-link,
+    &.broken {
+      text-decoration: none;
+    }
+  }
+}
+
+article {
+  blockquote {
+    border-left: 3px solid var(--secondary);
+    background: var(--soft);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 0.3rem 1rem;
+    margin: 1.2rem 0;
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+    opacity: 0.5;
+    margin: 2rem 0;
+  }
+
+  img {
+    border-radius: var(--radius);
+  }
+
+  table th {
+    background: var(--soft);
+    color: var(--dark);
+  }
+
+  pre {
+    border-radius: 8px;
+    border: 1px solid var(--line);
+  }
+}
+
+// ───────── Barra lateral esquerda ─────────
+.sidebar.left {
+  border-right: 1px solid var(--line);
+
+  @media all and ($mobile) {
+    border-right: none;
+  }
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-family: var(--headerFont);
+
+  a {
+    color: var(--dark);
+    background: none;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 0.55em;
+      height: 0.55em;
+      margin-right: 0.5em;
+      border-radius: 50%;
+      background: var(--secondary);
+      box-shadow: 0 0 0 3px var(--soft);
+      vertical-align: 0.1em;
+    }
+  }
+}
+
+// Busca + botões de tema/leitor: tudo na mesma linha, discreto
+.search .search-button {
+  background: var(--soft);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 0.55rem 0.8rem;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover {
+    border-color: var(--secondary);
+  }
+
+  p {
+    color: var(--gray);
+    font-size: 0.9rem;
+  }
+}
+
+.darkmode,
+.readermode {
+  border-radius: var(--radius);
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--soft);
+  }
+}
+
+// Explorador: lista limpa, sem ícones barulhentos
+.explorer {
+  .title-button {
+    h2 {
+      font-family: var(--bodyFont);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+  }
+
+  .explorer-ul {
+    font-size: 0.93rem;
+  }
+
+  // arquivos e pastas
+  .tree-item-self,
+  .nav-file-title,
+  .folder-container {
+    border-radius: 6px;
+    padding: 0.18rem 0.5rem;
+    transition: background-color 0.12s ease;
+
+    &:hover {
+      background: var(--soft);
+    }
+  }
+
+  a {
+    color: var(--darkgray);
+    background: none;
+    text-decoration: none;
+    padding: 0;
+
+    &:hover {
+      color: var(--dark);
+    }
+  }
+
+  // página atual
+  a.active,
+  a[aria-current="page"],
+  .is-active > .tree-item-self {
+    color: var(--secondary);
+    font-weight: $semiBoldWeight;
+  }
+
+  // pastas: setinha pequena em vez de ícone
+  .folder-icon,
+  .collapse-icon {
+    opacity: 0.55;
+  }
+
+  .folder-title,
+  .folder-button {
+    color: var(--dark);
+    font-weight: $semiBoldWeight;
+  }
+
+  // linha-guia fina nas subpastas
+  .nav-folder-children {
+    border-left: 1px solid var(--line);
+    margin-left: 0.6rem;
+    padding-left: 0.3rem;
+  }
+}
+
+// ───────── Barra lateral direita ─────────
+.sidebar.right {
+  .graph,
+  .backlinks,
+  .toc {
+    border: none;
+    background: none;
+  }
+
+  .graph > .graph-outer {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: transparent;
+  }
+
+  h3,
+  .toc-header,
+  .backlinks > h3 {
+    font-family: var(--bodyFont);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .toc a,
+  .backlinks a {
+    color: var(--darkgray);
+    background: none;
+    text-decoration: none;
+
+    &:hover,
+    &.in-view {
+      color: var(--secondary);
+    }
+  }
+
+  .backlinks ul {
+    list-style: none;
+    padding-left: 0;
+  }
+}
+
+// ───────── Navegação (breadcrumbs) ─────────
+.breadcrumb-container {
+  font-size: 0.82rem;
+  color: var(--gray);
+
+  a {
+    color: var(--gray);
+    background: none;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--secondary);
+    }
+  }
+}
+
+// ───────── Tags ─────────
+.tags > li > a,
+a.tag-link {
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--secondary);
+  border: 1px solid transparent;
+  padding: 0.1rem 0.7rem;
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    background: var(--soft);
+    border-color: var(--secondary);
+  }
+}
+
+// ───────── Comentários (Waline) ─────────
+// As variáveis --waline-* seguem as cores do site, então claro/escuro funcionam sozinhos.
+.waline-comments {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+
+  &::before {
+    content: "Comentários";
+    display: block;
+    margin-bottom: 1rem;
+    font-family: var(--headerFont);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--dark);
+  }
+}
+
+// :root:root garante prioridade sobre o tema escuro embutido do Waline
+:root:root .waline-comments [data-waline] {
+  --waline-font-size: 0.95rem;
+  --waline-theme-color: var(--secondary);
+  --waline-active-color: var(--tertiary);
+  --waline-color: var(--darkgray);
+  --waline-bgcolor: var(--light);
+  --waline-bgcolor-light: var(--soft);
+  --waline-bgcolor-hover: var(--soft);
+  --waline-border-color: var(--lightgray);
+  --waline-disable-bgcolor: var(--lightgray);
+  --waline-disable-color: var(--gray);
+  --waline-code-bgcolor: var(--soft);
+  --waline-bq-color: var(--soft);
+  --waline-info-bgcolor: var(--soft);
+  --waline-info-color: var(--gray);
+  --waline-border: 1px solid var(--lightgray);
+  --waline-avatar-radius: 50%;
+  --waline-box-shadow: none;
+  font-family: var(--bodyFont);
+
+  .wl-panel,
+  .wl-card .wl-quote,
+  .wl-editor,
+  .wl-input {
+    border-radius: var(--radius);
+    background: var(--light);
+    color: var(--darkgray);
+  }
+
+  .wl-btn.primary {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    color: var(--light);
+    border-radius: 8px;
+  }
+
+  .wl-header input,
+  .wl-editor {
+    color: var(--darkgray);
+  }
+
+  a {
+    background: none;
+  }
+}
+
+// ───────── Rodapé ─────────
+footer {
+  opacity: 0.7;
+  border-top: 1px solid var(--line);
+  margin-top: 2rem;
+  padding-top: 1rem;
+  font-size: 0.85rem;
+
+  a {
+    color: var(--gray);
+    background: none;
+  }
+}
+
+// ───────── Popovers / busca ─────────
+.popover > .popover-inner,
+.search-container > .search-space {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--light);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+:root[saved-theme="dark"] {
+  .popover > .popover-inner,
+  .search-container > .search-space {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  img {
+    // imagens claras demais ofuscam no escuro
+    filter: brightness(0.92);
+  }
+}
+
+::selection {
+  background: color-mix(in srgb, var(--secondary) 35%, transparent);
+  color: var(--dark);
+}
+
+// Respeita quem prefere menos movimento
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ───────── Página inicial: o título já aparece no corpo da nota ─────────
+body[data-slug="index"] .article-title {
+  display: none;
+}
+
+// ───────── Comentários: sem o bloco de reações ("O que você acha?") ─────────
+.waline-comments .wl-reaction {
+  display: none !important;
+}
+
+// ───────── Espaçamento: mais respiro ─────────
+#quartz-body {
+  column-gap: 1.5rem;
+
+  .sidebar {
+    gap: 1.6rem;
+    padding: 6rem 2.25rem 3rem;
+
+    @media all and ($mobile) {
+      padding: 1.5rem 0 0;
+    }
+  }
+
+  .page-header {
+    margin-top: 6.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .center > article {
+    margin-top: 1.25rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+article {
+  line-height: 1.8;
+
+  p,
+  ul,
+  ol {
+    margin: 1.1rem 0;
+  }
+
+  li {
+    margin: 0.35rem 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1.3;
+  }
+
+  h2 {
+    margin: 3rem 0 1rem;
+  }
+
+  h3 {
+    margin: 2.2rem 0 0.8rem;
+  }
+
+  blockquote {
+    margin: 1.8rem 0;
+    padding: 0.6rem 1.25rem;
+  }
+
+  img,
+  table,
+  pre {
+    margin: 1.6rem 0;
+  }
+}
+
+.breadcrumb-container {
+  margin-bottom: 1.25rem;
+}
+
+.waline-comments {
+  margin-top: 4.5rem;
+  padding-top: 2rem;
+
+  &::before {
+    margin-bottom: 1.5rem;
+  }
+}
+
+footer {
+  margin-top: 3.5rem;
+  padding: 1.5rem 0 3rem;
+}
+
+// ───────── Barras de rolagem: finas, arredondadas, em verde ─────────
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--secondary) 45%, transparent) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--secondary) 35%, transparent);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: color-mix(in srgb, var(--secondary) 70%, transparent);
+    background-clip: content-box;
+  }
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+// ───────── Logo (PNG preto, fundo transparente): legível no modo escuro ─────────
+:root[saved-theme="dark"] img[src*="group-118"] {
+  filter: invert(1);
+}
+
+// ───────── Avatares dos comentários (trocados por símbolos das nações via script) ─────────
+.waline-comments {
+  img.wl-user-avatar:not([src^="data:"]),
+  .wl-avatar img:not([src^="data:"]),
+  .wl-user-avatar img:not([src^="data:"]) {
+    visibility: hidden;
+  }
+
+  img.wl-user-avatar,
+  .wl-avatar img,
+  .wl-user-avatar img {
+    border-radius: 50%;
+    background: var(--soft);
+  }
+}

@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: pt-BR
-  baseUrl: avatarmacau.github.io/quartz
+  baseUrl: luizhardacore.github.io/avatarMacau
   ignorePatterns:
     - private
     - templates
@@ -16,30 +16,30 @@ configuration:
     fontOrigin: googleFonts
     cdnCaching: true
     typography:
-      header: Schibsted Grotesk
-      body: Source Sans Pro
+      header: Cinzel
+      body: Inter
       code: IBM Plex Mono
     colors:
       lightMode:
-        light: "#faf8f8"
-        lightgray: "#e5e5e5"
-        gray: "#727272"
-        darkgray: "#4e4e4e"
-        dark: "#2b2b2b"
-        secondary: "#284b63"
-        tertiary: "#587971"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#fff23688"
+        light: "#f6f8f3"
+        lightgray: "#dfe6d8"
+        gray: "#8a9585"
+        darkgray: "#3f4a3b"
+        dark: "#1c261b"
+        secondary: "#2f7d4a"
+        tertiary: "#5fa874"
+        highlight: rgba(47, 125, 74, 0.10)
+        textHighlight: "#d6f0a088"
       darkMode:
-        light: "#161618"
-        lightgray: "#393639"
-        gray: "#7f7f7f"
-        darkgray: "#d4d4d4"
-        dark: "#ebebec"
-        secondary: "#7b97aa"
-        tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3aa0288"
+        light: "#101512"
+        lightgray: "#25302a"
+        gray: "#6f7d72"
+        darkgray: "#c9d4cb"
+        dark: "#eef3ee"
+        secondary: "#5fcf80"
+        tertiary: "#8fe0a6"
+        highlight: rgba(95, 207, 128, 0.12)
+        textHighlight: "#8fe0a655"
   links:
     markdownLinkResolution: shortest
   contentIndex:
@@ -105,7 +105,7 @@ plugins:
     enabled: false
     order: 92
   - source: "@quartz-themes/core"
-    enabled: true
+    enabled: false
     options:
       theme: its-theme
       mode: both
@@ -136,7 +136,7 @@ plugins:
   - source: "@quartz-community/og-image"
     enabled: true
   - source: "@quartz-community/cname"
-    enabled: true
+    enabled: false
   - source: "@quartz-community/canvas-page"
     enabled: true
   - source: "@quartz-community/content-page"
@@ -174,7 +174,7 @@ plugins:
       position: beforeBody
       priority: 10
   - source: "@quartz-community/content-meta"
-    enabled: true
+    enabled: false
     layout:
       position: beforeBody
       priority: 20
@@ -206,16 +206,13 @@ plugins:
       position: beforeBody
       priority: 5
       condition: not-index
-  - source: "@quartz-community/comments"
+  # Comentários anônimos (Waline). Cole abaixo a URL do seu servidor Waline.
+  - source: ./plugins/waline-comments
     enabled: true
     options:
-      provider: giscus
-      options:
-        repo: LuizHardacore/avatarMacau
-        repoId: R_kgDOV-hvEQ
-        category: Announcements
-        categoryId: DIC_kwDOV-hvEc4DMICw
-        lang: en
+      serverURL: "https://comentarios-mu.vercel.app"
+      lang: pt-BR
+      requiredMeta: nick
     layout:
       position: afterBody
       priority: 10
@@ -223,8 +220,7 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/jackyzha0/quartz
-        Discord Community: https://discord.gg/cRFFHYye7t
+        GitHub: https://github.com/LuizHardacore/avatarMacau
     layout:
       position: footer
       priority: 50
