@@ -175,12 +175,21 @@ async function prepare(rel) {
       }
       entry.thumb = `${THUMB_DIR}/${name}`
     } catch (err) {
-      console.warn(`[galeria] sem miniatura para ${rel}: ${err.message}`)
+      console.warn(`[galeria] imagem ilegível, fora da galeria: ${rel} (${err.message})`)
+      entry.broken = true
     }
   }
   info.set(rel, entry)
   return entry
 }
+
+// imagens corrompidas (que não abrem) ficam de fora
+for (const rel of images) await prepare(rel)
+const ok = (rel) => !info.get(rel)?.broken
+const brokenCount = images.filter((i) => !ok(i)).length
+for (const p of pages) p.images = p.images.filter(ok)
+for (let i = pages.length - 1; i >= 0; i--) if (!pages[i].images.length) pages.splice(i, 1)
+for (let i = orphans.length - 1; i >= 0; i--) if (!ok(orphans[i])) orphans.splice(i, 1)
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
 const capName = (rel) => path.posix.basename(rel, path.posix.extname(rel))
@@ -192,7 +201,7 @@ async function grid(list, caption) {
     const dims = t.w && t.h ? ` width="${t.w}" height="${t.h}"` : ""
     const label = esc(`${caption} — ${capName(rel)}`)
     items.push(
-      `<a class="galeria-item" href="${esc(slugPath(rel))}" data-caption="${label}" target="_blank" rel="noopener">` +
+      `<a class="galeria-item" href="${esc(slugPath(rel))}" data-caption="${label}" data-name="${esc(capName(rel))}" target="_blank" rel="noopener">` +
         `<img src="${esc(slugPath(t.thumb))}" alt="${esc(capName(rel))}" loading="lazy" decoding="async"${dims}></a>`,
     )
   }
@@ -218,21 +227,31 @@ const sorted = [...folders.keys()].sort((a, b) => {
   return a.localeCompare(b, "pt-BR")
 })
 
-const total = images.length
+const total = images.length - brokenCount
+const plural = (n, a, b) => `${n} ${n === 1 ? a : b}`
+const folderCount = (f) => {
+  const { pages: ps, orphans: os } = folders.get(f)
+  return new Set([...ps.flatMap((p) => p.images), ...os]).size
+}
+const chips = sorted
+  .map((f, i) => `<a class="galeria-chip" href="#g-${i}">${esc(folderLabel(f))}<span>${folderCount(f)}</span></a>`)
+  .join("")
 const lines = [
   "---",
   "title: Galeria",
   "comments: false",
+  // fora de backlinks, grafo, busca e explorador (o acesso é pelo botão ao lado da busca)
+  "unlisted: true",
   "---",
   "",
-  `<p class="galeria-resumo">${total} ${total === 1 ? "imagem" : "imagens"} em ${pages.length} ${pages.length === 1 ? "página" : "páginas"}. Toque em uma imagem para ampliar.</p>`,
+  `<div class="galeria-hero"><p class="galeria-resumo">${plural(total, "imagem", "imagens")} em ${plural(pages.length, "página", "páginas")}, organizadas por pasta. Toque em uma imagem para ampliar.</p><nav class="galeria-chips" aria-label="Pastas">${chips}</nav></div>`,
   "",
 ]
 
-for (const f of sorted) {
+for (const [fi, f] of sorted.entries()) {
   const { pages: ps, orphans: os } = folders.get(f)
-  const count = new Set([...ps.flatMap((p) => p.images), ...os]).size
-  lines.push(`## ${folderLabel(f)}`, "", `<p class="galeria-contagem">${count} ${count === 1 ? "imagem" : "imagens"}</p>`, "")
+  const count = folderCount(f)
+  lines.push(`<span id="g-${fi}" class="galeria-ancora"></span>`, "", `## ${folderLabel(f)}`, "", `<p class="galeria-contagem">${plural(count, "imagem", "imagens")}</p>`, "")
   for (const p of ps) {
     const link = p.rel.replace(/\.md$/i, "")
     lines.push(`### [[${link}|${p.title.replace(/[|\]]/g, "")}]]`, "", await grid(p.images, p.title), "")
