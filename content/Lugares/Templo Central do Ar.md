@@ -1,0 +1,1 @@
+O Templo Central do Ar fica localizado no centro de [[Cidade República]] e foi fundado em 200 DG para abrigar a crescente população monástica da metrópole. O templo foi parcialmente destruído em 251 DG durante o evento que ficou conhecido como o [[Cisma do Ar]].

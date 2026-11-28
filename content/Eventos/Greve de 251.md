@@ -1,0 +1,3 @@
+A "Greve de 251" ou simplesmente "A Grande Greve" foi um marco na organização das classes trabalhadoras de [[Cidade República]] e teve inicio no setor metalúrgico, influenciado por movimentos semelhantes nas minas do Reino da Terra. A greve se expandiu para diversos setores industriais e comerciais e resultou em conflitos constantes com a [[Polícia de Cidade República]].
+
+Durante um desses conflitos foi dado como morto o jovem monge [[Tau, O Sábio|Soma]] causando o [[Cisma do Ar]] e encerrando a Greve.

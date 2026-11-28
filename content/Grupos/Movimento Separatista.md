@@ -1,0 +1,7 @@
+O movimento separatista foi fundado por [[Tau, O Sábio]] e hoje é comandado por ele junto a seu conselheiro [[Achak da Tribo da Água do Norte]]. Tau circula a cidade dando discursos apocalípticos sobre a ira dos espíritos com o modo de vida moderno, afirmando que o estado natural do mundo requer a separação total das quatro nações. Seu objetivo é o resgate das tradições espirituais e a destruição da [[República Unida]] e de Cidade República.
+
+Um dos pilares de seu pensamento é a grande peregrinação, um momento futuro onde quando atingirem influência e poder o bastante os separatistas poderão atravessar o mundo para retornar a suas terras de origem. Segundo a ideologia separatista aqueles que não se encaixam em nenhuma nação, seja por serem filhos miscigenados ou por terem como Tau escolhido abandonar seu povo, são chamados de guias e tem o dever sagrado de dedicar sua vida ao movimento já que não poderão participar da grande peregrinação.
+
+Por muitos anos eles não passaram de uma pedra no sapato da República Unida, foi apenas recentemente com a aparição de um espírito em Cidade República que o número de seguidores começou a crescer rapidamente e os separatistas se tornaram uma verdadeira ameaça para [[Cidade República]].
+
+O Movimento Separatista perdeu força depois da prisão de seu Tau no [[Episódio 9 - A Torre]], apesar disso algumas células religiosas compostas de antigos membros ainda existem em Cidade República. 
