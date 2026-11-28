@@ -1,0 +1,33 @@
+{
+  "name": "gallery-lightbox",
+  "version": "1.0.0",
+  "description": "Visualizador (lightbox) para a página Galeria",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./dist/index.js",
+    "./components": "./dist/components/index.js",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "sideEffects": false,
+  "peerDependencies": { "preact": "^10.0.0" },
+  "quartz": {
+    "name": "gallery-lightbox",
+    "displayName": "Gallery Lightbox",
+    "category": "component",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 50,
+    "defaultEnabled": false,
+    "defaultOptions": {},
+    "components": {
+      "GalleryLightbox": {
+        "displayName": "Gallery Lightbox",
+        "defaultPosition": "afterBody",
+        "defaultPriority": 20
+      }
+    }
+  }
+}

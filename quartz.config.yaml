@@ -231,6 +231,12 @@ plugins:
     layout:
       position: afterBody
       priority: 10
+  # Visualizador de imagens da página Galeria (gerada por scripts/gerar-galeria.mjs)
+  - source: ./plugins/gallery-lightbox
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 20
   - source: "@quartz-community/footer"
     enabled: true
     options:
