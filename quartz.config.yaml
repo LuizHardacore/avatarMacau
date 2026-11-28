@@ -238,6 +238,12 @@ plugins:
       position: left
       priority: 28
       group: toolbar
+  # Mapas interativos: blocos leaflet do Obsidian viram mapas Leaflet
+  - source: ./plugins/leaflet-maps
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 30
   - source: "@quartz-community/footer"
     enabled: true
     options:

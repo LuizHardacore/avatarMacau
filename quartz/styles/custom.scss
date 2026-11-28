@@ -1175,3 +1175,128 @@ body[data-slug="galeria"] .right.sidebar .backlinks {
 html {
   width: 100%;
 }
+
+// ---------------------------------------------------------------------------
+// Mapas interativos (blocos leaflet do vault, plugins/leaflet-maps)
+// ---------------------------------------------------------------------------
+.mapa-leaflet-wrap {
+  position: relative;
+  margin: 1.5rem 0;
+  border: 1px solid var(--lightgray);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--lightgray);
+
+  .mapa-leaflet {
+    width: 100%;
+    height: var(--mapa-altura, 400px);
+    max-height: 75vh;
+    background: var(--lightgray);
+    font-family: var(--bodyFont);
+    outline: none;
+  }
+
+  // sem o mapa pronto, reserva o espaço para a página não pular
+  &:not(.mapa-pronto):not(.mapa-erro) .mapa-leaflet {
+    min-height: 10rem;
+  }
+
+  &.mapa-erro {
+    padding: 1.25rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+  }
+
+  // imagem do mapa um pouco mais suave no modo escuro
+  .leaflet-image-layer {
+    margin: 0 !important;
+    max-width: none !important;
+    transition: filter 0.3s ease;
+  }
+
+  // controles de zoom e tela cheia com as cores do tema
+  .leaflet-bar {
+    border: 1px solid var(--lightgray);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      line-height: 1;
+      background-color: var(--light);
+      background-image: none;
+      color: var(--dark);
+      border-bottom: 1px solid var(--lightgray);
+      text-decoration: none;
+      transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover,
+      &:focus-visible {
+        background-color: var(--highlight);
+        color: var(--secondary);
+      }
+
+      &.leaflet-disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+    }
+  }
+
+  .leaflet-bar a {
+    cursor: pointer;
+  }
+
+  .mapa-cheio-btn {
+    font-size: 1.1rem;
+  }
+}
+
+:root[saved-theme="dark"] .mapa-leaflet-wrap .leaflet-image-layer {
+  filter: brightness(0.82) contrast(1.05);
+}
+
+@media all and (max-width: 600px) {
+  .mapa-leaflet-wrap {
+    border-radius: 10px;
+
+    // alvos de toque maiores
+    .leaflet-bar a {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+}
+
+// tela cheia
+html.mapa-aberto {
+  overflow: hidden;
+}
+
+.mapa-leaflet-wrap.mapa-cheio {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+
+  .mapa-leaflet {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    min-height: 0;
+  }
+}

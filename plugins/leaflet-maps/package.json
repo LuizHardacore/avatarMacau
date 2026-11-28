@@ -1,0 +1,33 @@
+{
+  "name": "leaflet-maps",
+  "version": "1.0.0",
+  "description": "Mapas interativos (blocos leaflet do Obsidian) para o Quartz",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./dist/index.js",
+    "./components": "./dist/components/index.js",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "sideEffects": false,
+  "peerDependencies": { "preact": "^10.0.0" },
+  "quartz": {
+    "name": "leaflet-maps",
+    "displayName": "Leaflet Maps",
+    "category": "component",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0",
+    "dependencies": [],
+    "defaultOrder": 50,
+    "defaultEnabled": false,
+    "defaultOptions": {},
+    "components": {
+      "LeafletMaps": {
+        "displayName": "Leaflet Maps",
+        "defaultPosition": "afterBody",
+        "defaultPriority": 30
+      }
+    }
+  }
+}
