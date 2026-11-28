@@ -7,7 +7,7 @@
 // - Agrupa por pasta da nota -> nota -> imagens. Imagens sem nota ficam por pasta.
 // - Cria miniaturas leves (webp) em <conteudo>/_galeria/ e escreve <conteudo>/Galeria.md.
 //
-// O Galeria.md e as miniaturas são gerados a cada build (estão no .gitignore):
+// O Galeria.md e as miniaturas são gerados a cada build (não vão para o git (.git/info/exclude; o Quartz ignora o que está no .gitignore)):
 // basta adicionar imagens ao vault e publicar, a galeria se atualiza sozinha.
 
 import fs from "node:fs/promises"
