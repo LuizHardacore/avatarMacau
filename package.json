@@ -13,6 +13,7 @@
   },
   "scripts": {
     "quartz": "./quartz/bootstrap-cli.mjs",
+    "tema-imagens": "node scripts/tema-linha-do-tempo.mjs",
     "galeria": "node scripts/gerar-galeria.mjs",
     "docs": "npx quartz build --serve -d docs",
     "check": "tsc --noEmit && npx prettier . --check",
