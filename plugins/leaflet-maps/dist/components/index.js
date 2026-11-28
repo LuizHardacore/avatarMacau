@@ -67,7 +67,10 @@ const inline = `
       if (!line || line.charAt(0) === "#") return;
       var i = line.indexOf(":");
       if (i < 1) return;
-      cfg[line.slice(0, i).trim().toLowerCase()] = line.slice(i + 1).trim();
+      var key = line.slice(0, i).trim().toLowerCase();
+      var val = line.slice(i + 1).trim();
+      if (key === "marker") { (cfg.markers = cfg.markers || []).push(val); return; }
+      cfg[key] = val;
     });
     return cfg;
   }
@@ -106,6 +109,99 @@ const inline = `
   }
   function num(v, d) { var n = parseFloat(v); return isFinite(n) ? n : d; }
 
+  // ---- marcadores (formato do plugin Obsidian Leaflet: marker: tipo, lat, long, [[link]], descrição)
+  var COLORS = { "default": "#2da2eb", vermelho: "#eb2d2d", amarelo: "#ffbb00", verde: "#12d20f", branco: "#ffffff" };
+  var UNITS_PER_PX = 131072; // o Obsidian Leaflet guarda a posição em pixels / 131072
+  var pageIndex = null;
+
+  function parseMarker(v) {
+    var p = v.split(",");
+    if (p.length < 3) return null;
+    var lat = parseFloat(p[1]), lng = parseFloat(p[2]);
+    if (!isFinite(lat) || !isFinite(lng)) return null;
+    var rest = p.slice(3).join(",").trim();
+    var link = "";
+    if (rest.indexOf("[[") === 0) {
+      var e = rest.indexOf("]]");
+      if (e > 0) {
+        link = rest.slice(2, e).split("|")[0].trim();
+        rest = rest.slice(e + 2).trim();
+        if (rest.charAt(0) === ",") rest = rest.slice(1).trim();
+      }
+    }
+    return { type: p[0].trim(), lat: lat, lng: lng, link: link, desc: rest };
+  }
+
+  function norm(s) { return s.normalize("NFC").toLowerCase().trim(); }
+  function loadIndex() {
+    if (pageIndex) return pageIndex;
+    var root = (document.body && document.body.dataset.basepath) || "";
+    pageIndex = fetch(root + "/static/contentIndex.json")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var map = {};
+        Object.keys(data).forEach(function (slug) {
+          var d = data[slug] || {};
+          var file = (d.filePath || slug).split("/").pop().replace(".md", "");
+          map[norm(file)] = slug;
+          if (d.title) map[norm(d.title)] = map[norm(d.title)] || slug;
+        });
+        return map;
+      })
+      .catch(function () { pageIndex = null; return {}; });
+    return pageIndex;
+  }
+
+  function pinIcon(L, type) {
+    var color = COLORS[norm(type)] || COLORS["default"];
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 32" width="26" height="34">' +
+      '<path d="M12 1C6 1 1.5 5.6 1.5 11.3c0 7.6 8.5 18.4 10.5 19.9 2-1.5 10.5-12.3 10.5-19.9C22.5 5.6 18 1 12 1z" fill="' + color + '" stroke="#1c261b" stroke-width="1.6"/>' +
+      '<circle cx="12" cy="11.5" r="4" fill="#1c261b" fill-opacity="0.75"/></svg>';
+    return L.divIcon({ className: "mapa-pino", html: svg, iconSize: [26, 34], iconAnchor: [13, 33], popupAnchor: [0, -30], tooltipAnchor: [0, -28] });
+  }
+
+  function addMarkers(map, cfg, img, L) {
+    (cfg.markers || []).forEach(function (raw) {
+      var m = parseMarker(raw);
+      if (!m) return;
+      var x = Math.min(Math.max(m.lng * UNITS_PER_PX, 0), img.w);
+      var yTop = Math.min(Math.max(-m.lat * UNITS_PER_PX, 0), img.h);
+      var title = m.link || m.desc;
+      var marker = L.marker([img.h - yTop, x], { icon: pinIcon(L, m.type), keyboard: true, title: title, riseOnHover: true }).addTo(map);
+      marker.bindTooltip(title, { direction: "top", className: "mapa-dica" });
+      var box = document.createElement("div");
+      var h = document.createElement("strong");
+      h.textContent = title;
+      box.appendChild(h);
+      if (m.link && m.desc) {
+        var d = document.createElement("div");
+        d.textContent = m.desc;
+        box.appendChild(d);
+      }
+      var holder = document.createElement("div");
+      box.appendChild(holder);
+      marker.bindPopup(box, { className: "mapa-popup", closeButton: true, autoPanPadding: [30, 30] });
+      if (m.link) {
+        loadIndex().then(function (idx) {
+          var slug = idx[norm(m.link)];
+          if (!slug) return;
+          var root = (document.body && document.body.dataset.basepath) || "";
+          var a = document.createElement("a");
+          a.className = "mapa-popup-link";
+          a.href = root + "/" + encodeURI(slug);
+          a.textContent = "Abrir página →";
+          a.addEventListener("click", function (e) {
+            if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+            e.preventDefault();
+            if (window.spaNavigate) window.spaNavigate(new URL(a.href, location.href));
+            else location.href = a.href;
+          });
+          holder.appendChild(a);
+        });
+      }
+    });
+  }
+
   function build(wrap, cfg, L) {
     var el = wrap.querySelector(".mapa-leaflet");
     return loadFirst(candidates(cfg.image || "")).then(function (img) {
@@ -122,6 +218,7 @@ const inline = `
       });
       var bounds = [[0, 0], [img.h, img.w]];
       L.imageOverlay(img.url, bounds).addTo(map);
+      addMarkers(map, cfg, img, L);
       map.setMaxBounds(L.latLngBounds(bounds).pad(0.15));
 
       // altura do mapa acompanha a proporção da imagem (sem faixas vazias), limitada à tela

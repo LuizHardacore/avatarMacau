@@ -117,6 +117,103 @@ const inline = `
       if (my === token) target.textContent = "Não foi possível carregar os comentários. Recarregue a página.";
     });
   }
+  // Página "Comentários": lista os comentários mais recentes de todo o site
+  var titleIndex = null;
+  function loadTitles(root) {
+    if (titleIndex) return titleIndex;
+    titleIndex = fetch(root + "/static/contentIndex.json")
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var m = {};
+        Object.keys(d).forEach(function (k) { m[k] = (d[k] && d[k].title) || ""; });
+        return m;
+      })
+      .catch(function () { titleIndex = null; return {}; });
+    return titleIndex;
+  }
+  function plain(html) {
+    var doc = new DOMParser().parseFromString(html || "", "text/html");
+    doc.querySelectorAll("br").forEach(function (b) { b.replaceWith(String.fromCharCode(10)); });
+    doc.querySelectorAll("p").forEach(function (q) { q.append(String.fromCharCode(10)); });
+    return (doc.body.textContent || "").trim();
+  }
+  function pageTitle(url, titles, root) {
+    var path = url || "";
+    try { path = decodeURIComponent(path); } catch (e) {}
+    if (path.indexOf(root) === 0) path = path.slice(root.length);
+    var slug = path.split("?")[0].split("#")[0];
+    while (slug.charAt(0) === "/") slug = slug.slice(1);
+    var folder = slug === "" || slug.charAt(slug.length - 1) === "/";
+    while (slug.charAt(slug.length - 1) === "/") slug = slug.slice(0, -1);
+    var key = folder ? (slug ? slug + "/index" : "index") : slug;
+    if (titles[key]) return titles[key];
+    var last = (slug.split("/").pop() || "Página inicial").split("-").join(" ");
+    return last.charAt(0).toUpperCase() + last.slice(1);
+  }
+  function recent() {
+    var box = document.querySelector(".comentarios-recentes");
+    if (!box || box.dataset.done === "1") return;
+    box.dataset.done = "1";
+    var server = box.dataset.serverUrl || "";
+    while (server.charAt(server.length - 1) === "/") server = server.slice(0, -1);
+    var root = (document.body && document.body.dataset.basepath) || "";
+    var LIMIT = 50;
+    function msg(t) { box.textContent = ""; var p = document.createElement("p"); p.className = "comentarios-aviso"; p.textContent = t; box.appendChild(p); }
+    msg("Carregando comentários…");
+    Promise.all([
+      fetch(server + "/api/comment?type=recent&count=" + LIMIT + "&lang=pt-BR").then(function (r) { return r.json(); }),
+      loadTitles(root)
+    ]).then(function (res) {
+      var list = (res[0] && res[0].data) || [];
+      var titles = res[1];
+      if (!list.length) { msg("Ainda não há comentários no site."); return; }
+      box.textContent = "";
+      var head = document.createElement("p");
+      head.className = "comentarios-resumo";
+      head.textContent = list.length + (list.length === 1 ? " comentário" : " comentários") + (list.length >= LIMIT ? " mais recentes" : "") + ", do mais novo para o mais antigo.";
+      box.appendChild(head);
+      var ul = document.createElement("ul");
+      ul.className = "comentarios-lista";
+      list.forEach(function (c) {
+        var li = document.createElement("li");
+        li.className = "comentario";
+        var img = document.createElement("img");
+        img.className = "comentario-avatar";
+        img.alt = "";
+        img.setAttribute("src", "data:image/svg+xml;charset=utf-8," + encodeURIComponent(SYMBOLS[pick(c.nick || c.objectId || "")]));
+        var body = document.createElement("div");
+        body.className = "comentario-corpo";
+        var top = document.createElement("div");
+        top.className = "comentario-topo";
+        var nick = document.createElement("strong");
+        nick.textContent = c.nick || "Anônimo";
+        var when = document.createElement("time");
+        var dt = new Date(c.insertedAt || c.createdAt || c.time || 0);
+        if (isFinite(dt.getTime()) && dt.getTime() > 0) {
+          when.dateTime = dt.toISOString();
+          when.textContent = dt.toLocaleString("pt-BR", { dateStyle: "medium", timeStyle: "short" });
+        }
+        top.appendChild(nick);
+        top.appendChild(when);
+        var text = document.createElement("div");
+        text.className = "comentario-texto";
+        text.textContent = plain(c.comment);
+        var where = document.createElement("a");
+        where.className = "comentario-pagina";
+        where.href = c.url || "#";
+        where.textContent = "em " + pageTitle(c.url, titles, root);
+        body.appendChild(top);
+        body.appendChild(text);
+        body.appendChild(where);
+        li.appendChild(img);
+        li.appendChild(body);
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    }).catch(function () { msg("Não foi possível carregar os comentários agora. Tente novamente mais tarde."); });
+  }
+  document.addEventListener("nav", recent);
+  document.addEventListener("render", recent);
   document.addEventListener("nav", mount);
   document.addEventListener("render", mount);
 })();

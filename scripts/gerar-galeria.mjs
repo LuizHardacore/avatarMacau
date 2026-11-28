@@ -22,6 +22,7 @@ const THUMB_WIDTH = 640
 const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif", ".svg", ".bmp"])
 const SKIP_DIRS = new Set([".obsidian", ".trash", "private", "templates", "node_modules", THUMB_DIR])
 const OUTPUT_NAME = "Galeria.md"
+const COMMENTS_NAME = "Comentários.md"
 // Pastas que não viram categoria na galeria ("" = notas na raiz do vault)
 const EXCLUDED_FOLDERS = new Set(["", "Imagens"])
 
@@ -72,7 +73,7 @@ async function walk(dir, rel = "", out = { images: [], notes: [] }) {
         if (!rel && /^(favicon|logo)./i.test(e.name)) continue
         out.images.push(relPath)
       }
-      else if (ext === ".md" && relPath !== OUTPUT_NAME) out.notes.push(relPath)
+      else if (ext === ".md" && relPath !== OUTPUT_NAME && relPath !== COMMENTS_NAME) out.notes.push(relPath)
     }
   }
   return out
@@ -281,3 +282,25 @@ for (const f of await fs.readdir(thumbRoot)) {
 console.log(
   `[galeria] ${total} imagens, ${pages.length} páginas, ${folders.size} pastas -> ${toPosix(path.relative(ROOT, path.join(CONTENT, OUTPUT_NAME)))}`,
 )
+
+// ---------- página "Comentários" (lista os comentários do Waline, carregados no navegador) ----------
+let serverURL = ""
+try {
+  const cfg = await fs.readFile(path.join(ROOT, "quartz.config.yaml"), "utf8")
+  serverURL = cfg.match(/serverURL:\s*["']?([^"'\s]+)/)?.[1] ?? ""
+} catch {}
+if (serverURL) {
+  const page = [
+    "---",
+    "title: Comentários",
+    "comments: false",
+    "---",
+    "",
+    "Todos os comentários feitos no site, do mais recente ao mais antigo.",
+    "",
+    `<div class="comentarios-recentes" data-server-url="${esc(serverURL)}"><p class="comentarios-aviso">Carregando comentários…</p></div>`,
+    "",
+  ].join("\n")
+  await fs.writeFile(path.join(CONTENT, COMMENTS_NAME), page, "utf8")
+  console.log("[galeria] página de comentários gerada.")
+}
