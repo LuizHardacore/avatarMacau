@@ -1,1 +1,0 @@
-A Guerra dos Cem Anos é o nome dado aos conflitos bélicos decorrentes das campanhas de colonização e genocídio instauradas pela Nação do Fogo durante a era do Avatar Aang. O início da guerra é marcado no ano 1 pelo genocídio dos nômades do ar e o fim pela derrota do Senhor do Fogo Ozai no ano 100.

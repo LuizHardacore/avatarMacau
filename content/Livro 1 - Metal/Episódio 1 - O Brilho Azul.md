@@ -1,3 +1,0 @@
-**SESSÃO:**  
-
-Os jogadores se encontraram ao lado do ringue de luta ilegal, Yanli viu uma luz misteriosa que desapareceu com a chegada da polícia. Todos (menos Xiāoyín que apenas seguiu o grupo até a delegacia) forma detidos e receberam uma proposta do [[Chefe de Polícia Binh|chefe de polícia Binh]] de impedir membros da ameaça tripla de roubarem um galpão das Industrias Futuro em troca da sua liberdade. Eles aceitam e derrotam 3 capangas mas deixam seu líder estiloso fugir. Eles levam provas e uma van roubada até a delegacia, Chefe Binh em troca os libera e fornece a informação inútil de que a polícia não sabe de nada mas suspeita do novo ar e dos separatistas e aponta uma mansão mal assombrada onde aconteceu o último desaparecimento.

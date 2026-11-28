@@ -1,7 +1,0 @@
-**SESSÃO:**  
-
-Os jogadores chegaram abalados no show de punk n[[O Bisão Solitário|o bisão solitário]], Hanna tem um momento para desabafar com sora e ele diz para ela procurar informações na biblioteca. O grupo falha em arrancar informações de chang e passa a noite lá, de manhã eles se arrumam na casa da [[Tia Meifang|tia Meifang]] e vão a Biblioteca.  Chegando lá eles encontram chefe [[Chefe de Polícia Binh|Binh]] contendo um protesto, ele diz que as fotos voltaram do laboratório e são apenas máquinas e mais máquinas. Dentro da biblioteca eles são recebidos por Thi que estuda interação entre humanos e espíritos e os ajuda a encontram informações sobre [[O Espírito de Cidade República|She Lian a serpente da ganância]]. Min rouba um livro sobre combustível de cipó. 
-
-O grupo decide ir até o parque Avatar Korra para se conectar com os espíritos, na saida encontram chefe Binh que diz que a policia reconheceu eles e a madame Obake decidiu prestar queixas. no caminho para o parque eles são parados por uma vã igual a deles de onde desce Chen o membro da ameaça tripla que fugiu no episódio 1. Chen tem queimaduras da mansão Obake e quer vingança.
-
-Depois de um conflito demorado eles vencem mas Chen captura Min e ameaça queima-la também. 

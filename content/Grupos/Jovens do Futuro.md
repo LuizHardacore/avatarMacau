@@ -1,5 +1,0 @@
-Os Jovens do Futuro são uma organização sem fins lucrativos iniciada pelo [[Lee “Macau” Cao Kin|Avatar Macau]] no antigo prédio das [[Corporação Repolho]] em [[Cidade República]]. 
-
-Depois da destruição parcial do edifício durante o [[Cerco Separatista]] ele foi abandonado pela [[Corporação Repolho]] que construiu uma nova sede longe do centro da cidade. O nome veio em homenagem a [[Kayo Sato]] que segundo o Avatar teria financiado a causa. Esse financiamento nunca aconteceu pois o [[Time Avatar]] foi considerado Suspeito de seu assassino, congelando seus bens.
-
-O projeto Jovens do Futuro é liderado por [[Toko]], uma jovem dobradora de água que costumava morar nas ruas. O [[Time Avatar]] está ajudando sempre que pode com o apoio de [[Tia Meifang|Meifang]] e a [[Revista Bloom]], [[Chang do Novo Ar|Chang]] e os membros do [[Novo Ar]] e o auxílio silencioso de [[Monge Toofan|Toofan]] e o [[Prefeito Woong]] que não se envolvem publicamente. 

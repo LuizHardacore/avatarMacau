@@ -1,3 +1,0 @@
-_Akio_ (秋尾)  “Homem Brilhante”, “Macho” ou “Herói”.
-
-Akio é grande e forte, tem um coque samurai e a largura de dois homens comuns. Ele é um mestre da dominação de fogo que cresceu na nação do fogo. Akio veio a [[Cidade República|cidade república]] para ser juiz nos campeonatos de dobra profissional mas ficou entediado rapidamente e topou treinar o [[Lee “Macau” Cao Kin|Avatar]] como um favor a [[Monge Toofan|Toofan]].
