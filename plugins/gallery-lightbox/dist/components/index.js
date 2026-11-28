@@ -69,12 +69,15 @@ const inline = `
 
   function step(d) { if (list.length > 1) show(idx + d); }
 
-  document.addEventListener("click", function (e) {
+  // Fase de captura na window: roda antes do roteador SPA do Quartz e do navegador,
+  // então a imagem nunca abre numa página/aba própria.
+  window.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest("a.galeria-item");
-    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    if (!a || e.button !== 0) return;
     e.preventDefault();
+    e.stopImmediatePropagation();
     open(a);
-  });
+  }, true);
   document.addEventListener("keydown", function (e) {
     if (!box || box.hidden) return;
     if (e.key === "Escape") close();

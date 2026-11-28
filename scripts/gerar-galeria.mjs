@@ -22,6 +22,8 @@ const THUMB_WIDTH = 640
 const IMAGE_EXT = new Set([".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif", ".svg", ".bmp"])
 const SKIP_DIRS = new Set([".obsidian", ".trash", "private", "templates", "node_modules", THUMB_DIR])
 const OUTPUT_NAME = "Galeria.md"
+// Pastas que não viram categoria na galeria ("" = notas na raiz do vault)
+const EXCLUDED_FOLDERS = new Set(["", "Imagens"])
 
 let sharp = null
 try {
@@ -191,6 +193,11 @@ for (const p of pages) p.images = p.images.filter(ok)
 for (let i = pages.length - 1; i >= 0; i--) if (!pages[i].images.length) pages.splice(i, 1)
 for (let i = orphans.length - 1; i >= 0; i--) if (!ok(orphans[i])) orphans.splice(i, 1)
 
+// categorias excluídas
+const folderOf = (rel) => (path.posix.dirname(rel) === "." ? "" : path.posix.dirname(rel))
+for (let i = pages.length - 1; i >= 0; i--) if (EXCLUDED_FOLDERS.has(pages[i].folder)) pages.splice(i, 1)
+for (let i = orphans.length - 1; i >= 0; i--) if (EXCLUDED_FOLDERS.has(folderOf(orphans[i]))) orphans.splice(i, 1)
+
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;")
 const capName = (rel) => path.posix.basename(rel, path.posix.extname(rel))
 
@@ -201,7 +208,7 @@ async function grid(list, caption) {
     const dims = t.w && t.h ? ` width="${t.w}" height="${t.h}"` : ""
     const label = esc(`${caption} — ${capName(rel)}`)
     items.push(
-      `<a class="galeria-item" href="${esc(slugPath(rel))}" data-caption="${label}" data-name="${esc(capName(rel))}" target="_blank" rel="noopener">` +
+      `<a class="galeria-item" href="${esc(slugPath(rel))}" data-caption="${label}" data-name="${esc(capName(rel))}" data-no-popover="true">` +
         `<img src="${esc(slugPath(t.thumb))}" alt="${esc(capName(rel))}" loading="lazy" decoding="async"${dims}></a>`,
     )
   }
@@ -227,7 +234,7 @@ const sorted = [...folders.keys()].sort((a, b) => {
   return a.localeCompare(b, "pt-BR")
 })
 
-const total = images.length - brokenCount
+const total = new Set([...pages.flatMap((p) => p.images), ...orphans]).size
 const plural = (n, a, b) => `${n} ${n === 1 ? a : b}`
 const folderCount = (f) => {
   const { pages: ps, orphans: os } = folders.get(f)
