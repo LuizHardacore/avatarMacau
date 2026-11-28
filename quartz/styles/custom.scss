@@ -1169,3 +1169,8 @@ body[data-slug="galeria"] .right.sidebar .backlinks {
 :root[saved-theme="dark"] img[src*="frame-1"] {
   filter: invert(1) hue-rotate(180deg) saturate(1.15);
 }
+
+// 100vw inclui a barra de rolagem (Windows/Linux) e cortava ~15px do lado direito
+html {
+  width: 100%;
+}
