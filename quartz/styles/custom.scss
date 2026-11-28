@@ -592,7 +592,8 @@ footer {
 }
 
 // ───────── Logo (PNG preto, fundo transparente): legível no modo escuro ─────────
-:root[saved-theme="dark"] img[src*="group-118"] {
+:root[saved-theme="dark"] img[src*="group-118"],
+:root[saved-theme="dark"] img[src*="group-161"] {
   filter: invert(1);
 }
 
