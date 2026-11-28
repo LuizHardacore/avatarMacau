@@ -83,11 +83,52 @@ const inline = `
   });
   // ao trocar de página com o visualizador aberto, fecha
   document.addEventListener("nav", close);
+
+  // Explorador: na primeira visita (por navegador), abre todas as pastas.
+  // Depois disso o estado aberto/fechado escolhido pela pessoa é respeitado.
+  function expandAll(tries) {
+    var icons = document.querySelectorAll(".explorer .folder-icon.is-collapsed");
+    if (icons.length) {
+      icons.forEach(function (i) { i.click(); });
+      try { localStorage.setItem("galeria-explorer-aberto", "1"); } catch (e) {}
+    } else if (tries > 0) {
+      setTimeout(function () { expandAll(tries - 1); }, 150);
+    }
+  }
+  document.addEventListener("nav", function () {
+    try { if (localStorage.getItem("galeria-explorer-aberto")) return; } catch (e) { return; }
+    expandAll(20);
+  });
 })();
 `;
 
+// Botão da galeria (ao lado da busca) + script do visualizador.
+const ICON = jsx("svg", {
+  xmlns: "http://www.w3.org/2000/svg", width: 20, height: 20, viewBox: "0 0 24 24", fill: "none",
+  stroke: "currentColor", "stroke-width": 2, "stroke-linecap": "round", "stroke-linejoin": "round",
+  "aria-hidden": "true",
+  children: [
+    jsx("rect", { x: 3, y: 3, width: 18, height: 18, rx: 2 }),
+    jsx("circle", { cx: 9, cy: 9, r: 2 }),
+    jsx("path", { d: "m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21" }),
+  ],
+});
+
 export const GalleryLightbox = () => {
-  const Comp = () => jsx(Fragment, {});
+  const Comp = ({ fileData, displayClass }) => {
+    const slug = fileData?.slug ?? "index";
+    const depth = slug.split("/").length - 1;
+    const href = (depth > 0 ? "../".repeat(depth) : "./") + "galeria";
+    const current = slug === "galeria";
+    return jsx("a", {
+      class: ["galeria-button", "internal", displayClass].filter(Boolean).join(" "),
+      href,
+      title: "Galeria de imagens",
+      "aria-label": "Galeria de imagens",
+      "aria-current": current ? "page" : undefined,
+      children: ICON,
+    });
+  };
   Comp.afterDOMLoaded = inline;
   return Comp;
 };
